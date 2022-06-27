@@ -1,0 +1,23 @@
+* --------------style modal ------------------------------ */
+
+.form_div
+{
+    display: flex;
+    flex-direction: column;
+    column-gap: 50px;
+
+}
+
+#createPostModal
+{
+
+    z-index: 1!important;
+    opacity: 0 !important;
+}
+.modal-dialog{
+    overflow-y: initial !important
+}
+.my_large_model{
+    height: 80vh;
+    overflow-y: auto;
+}

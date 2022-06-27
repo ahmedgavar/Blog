@@ -1,6 +1,8 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\User\PostController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,16 +15,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
 Auth::routes();
 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::get('/admin',function()
-{
 
-    return view('layouts.User.banner');
-});
 
+Route::group(['prefix'=>'users','as'=>'users.','middleware'=>'auth'], function(){
+    Route::resource('/posts',PostController::class);
+
+
+    });

@@ -1,0 +1,27 @@
+* --------------style modal ------------------------------ */
+.modal-title
+{
+    color: red;
+    margin: auto;
+}
+
+.form_div
+{
+    display: flex;
+    flex-direction: column;
+    column-gap: 50px;
+
+}
+.modal-dialog{
+    overflow-y: initial !important
+}
+.my_large_model{
+    height: 80vh;
+    overflow-y: auto;
+}
+/* width of image in modal */
+.imgPreview img{
+    width: 80px;
+    margin-left: 15px;
+
+}

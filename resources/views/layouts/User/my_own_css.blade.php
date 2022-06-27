@@ -15,3 +15,7 @@
      <link rel="stylesheet" href="{{ asset('css/owl.carousel.min.css') }}">
      <link rel="stylesoeet" href="{{ asset('css/owl.theme.default.min.css')}}">
      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css" media="screen">
+
+     {{-- my css for me  --}}
+<link rel="stylesheet" href="{{ asset('css/my_css/create_modal.css') }}">
+
