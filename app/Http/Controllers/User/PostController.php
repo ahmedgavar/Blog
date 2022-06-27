@@ -46,64 +46,29 @@ class PostController extends Controller
 
     public function store(StorePostRequest $request)
     {
-        //
 
-
-        $time=Carbon::now();
         // name of image using slug
         $title=trim($request->title);
         $slug=Str::of($request->title)->slug('-');
-        // folder of images if not existed
-        //$new_path=date_format($time, 'd').'//'.date_format($time, 'm').'//'.date_format($time, 'Y');
-        $new_path = date('Y-m-d').'/'.$slug;
-        if ($request->hasFile('images'))
+
+
+            // to ensure saving data in 2 tables
+        DB::transaction(function () use ($slug,$title, $request)
 
         {
 
-            // to ensure saving data in 2 tables
-            DB::transaction(function () use ($slug,$title, $request,$new_path)
 
-            {
+            // 1 save table of posts
+            $post_data = Arr::except($request->all(), ['images','title']);
+            $post_store=Post::create
+            (
+                // user id added in boot function in post model when creating
+                $post_data+['title'=>$title]
 
+            );
 
-                // 1 save table of posts
-                $post_data = Arr::except($request->all(), ['images','title']);
-                $post_store=Post::create
-                (
-                 // user id added in boot function in post model when creating
-
-                    $post_data+['title'=>$title]
-
-                );
-
-                // 2 save table of post_images
-
-
-                foreach ($request->images as $image)
-                {
-                    // A_ path of image folders according post date and name
-                    // B_ images names
-                    $file_name = rand(1, 500);
-                    $file_extension=$image->extension();
-
-                    // C_ store original image
-                    Storage::disk('post_images')->putFileAs($new_path, $image, $file_name.'.'.$file_extension);
-
-
-                    // 3 store images for post with relation
-
-                    $post_images=$post_store->images()->create(
-                        [
-                            'path'=>$new_path,
-
-                            'name'=>$file_name,
-
-                            'extension'=>$file_extension,
-
-                        ]
-
-                    );
-                }
+            // 2 save  images of  post using trait
+            $this->store_multi_image($request->images,'post_images',$slug,$post_store);
 
             $total_images = count($request->file('images'));
 
@@ -115,7 +80,7 @@ class PostController extends Controller
             );
 
 
-            });
+        });
 
            return response()->json(
             [
@@ -124,13 +89,6 @@ class PostController extends Controller
 
             ]
             );
-
-
-
-
-        }
-
-
 
     }
 
