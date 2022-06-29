@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Post;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -24,6 +25,14 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+
+        $posts=Post::withCount(['images'])->orderBy('id','desc')->paginate(5);
+        // return response()->json(
+        //     [
+        //         'posts'=>$posts
+        //     ]
+        //     );
+
+        return view('home',['posts'=>$posts]);
     }
 }

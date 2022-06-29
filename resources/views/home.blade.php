@@ -4,23 +4,15 @@
 
     @include('layouts.User.header')
 
-
-    {{-- show success message when creating post --}}
-    @if (session('create_status'))
-    <div class="alert alert-success" id="success_create_update_msg">
-        {{ session('create_status') }}
-    </div>
-    @endif
-    {{-- end show success message when creating post --}}
+    @include('layouts.User.flash_create_success')
 
     @include('layouts.User.banner')
 
+
     @include('layouts.User.some_divs')
-    @include('layouts.User.about')
 
-    @include('layouts.User.blog')
 
-    @include('layouts.User.recent')
+    @include('layouts.User.show_posts')
 
 
     @include('layouts.User.contact')
@@ -30,12 +22,17 @@
 
 
 
+
 @endsection
 
 @section('scripts')
 
 
 <script src="{{ asset('js/new_post.js') }}" defer>
+</script>
+
+
+<script src="{{ asset('js/update_post.js') }}" defer>
 
 </script>
 @endsection

@@ -1,12 +1,16 @@
-@forelse ($posts as $post)
+<div id="show_all_posts">
+
+    @forelse ($posts as $post)
 
       <!-- recent section start -->
       <div class="about_section layout_padding">
         <div class="container">
            <div class="row">
               <div class="col-lg-8 col-sm-12">
-                @include('layouts.show_posts')
-                 
+                {{-- show images of posts --}}
+                @include('posts.show_posts_images')
+                {{-- End show images of posts --}}
+
 
                  <p class="post_text">Post At : {{$post->created_at->diffForHumans()}}</p>
                  <h2 class="most_text">{{ $post->title }} </h2>
@@ -57,7 +61,7 @@
 
 
 
-                          <li><a href="#"><img src="images/fb-icon.png"></a></li>
+                          <li><a href="#"><img src="images"></a></li>
                           <li><a href="#"><img src="images/twitter-icon.png"></a></li>
                           <li><a href="#"><img src="images/instagram-icon.png"></a></li>
                        </ul>
@@ -74,9 +78,13 @@
 
            </div>
         </div>
-     </div>
-     <!-- recent section end -->
-@empty
-no posts
+        @empty
+        no posts
 
-@endforelse
+        @endforelse
+</div>
+
+
+     <!-- recent section end -->
+
+@include('User.edit')

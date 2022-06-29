@@ -2,6 +2,9 @@
 <div class="container-fluid">
     <div class="banner_section layout_padding">
        <h1 class="banner_taital">welcome <br>our blog</h1>
+
+
+
        <div id="my_slider" class="carousel slide" data-ride="carousel">
           <div class="carousel-inner">
              <div class="carousel-item active">
@@ -39,4 +42,5 @@
     </div>
  </div>
  <!-- banner section end -->
+
 </div>

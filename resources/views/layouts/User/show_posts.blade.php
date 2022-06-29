@@ -5,8 +5,10 @@
         <div class="container">
            <div class="row">
               <div class="col-lg-8 col-sm-12">
-                @include('layouts.show_posts')
-                 
+                {{-- show images of posts --}}
+                @include('posts.show_posts_images')
+                {{-- End show images of posts --}}
+
 
                  <p class="post_text">Post At : {{$post->created_at->diffForHumans()}}</p>
                  <h2 class="most_text">{{ $post->title }} </h2>
@@ -74,9 +76,12 @@
 
            </div>
         </div>
-     </div>
-     <!-- recent section end -->
-@empty
-no posts
+        @empty
+        no posts
 
-@endforelse
+        @endforelse
+
+
+     <!-- recent section end -->
+
+@include('User.edit')

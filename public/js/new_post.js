@@ -4,6 +4,18 @@
 2_ use jquery to show images before uploading
 
 */
+
+$('#createPostModal').on('show.bs.modal',function(event){
+
+    $('#deletePostModal').hide();
+    $('#editPostModal').hide();
+     // this following line solved problem gray background when opening modal
+     $(this).appendTo("body");
+     //  End solve gray background when opening modal
+
+
+
+});
 // first task is about create post
 $('#post_form').on('submit', function (e) {
         e.preventDefault();
@@ -50,15 +62,19 @@ $('#post_form').on('submit', function (e) {
 
                         // third step :close modal
                         $('#createPostModal').modal('hide');
-                        $('#createPostModal').removeClass('fade');
-                        $('#createPostModal').removeClass('show');
 
-                        $(".modal-backdrop").remove();
                         $('body').removeClass('modal-open');
+                        $('.modal-backdrop').remove();
 
 
 
 
+
+                        // fourth step: show success message for 5 seconds
+                        $('#success_msg').show();
+                        setTimeout(function(){
+                            $('#success_msg').hide();// or fade, css display however you'd like.
+                         }, 3000);
 
 
 
@@ -74,6 +90,8 @@ $('#post_form').on('submit', function (e) {
                 }
             });
         });
+
+
 
 
 // second task is to show images before uploading
@@ -106,3 +124,33 @@ $(function() {
 
     });
 });
+
+jQuery(document).ready(function()
+{
+    fetchData();
+    function fetchData()
+    {
+
+
+        $.ajax({
+            method: 'GET',
+            url: '/users/posts',
+            dataType:'json',
+            success: function (response)
+             {
+                console.log(response);
+               $('#show_all_posts').html(response);
+
+
+
+            }
+        });
+
+    }
+
+});
+
+
+
+
+

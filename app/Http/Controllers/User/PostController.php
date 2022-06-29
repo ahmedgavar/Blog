@@ -7,11 +7,13 @@ use App\Models\Post;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Http\Traits\BlogTrait;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\File;
 use App\Http\Requests\StorePostRequest;
-use App\Http\Traits\BlogTrait;
-use Illuminate\Support\Facades\Storage;
+use App\Http\Requests\UpdatePostRequest;
+
 
 class PostController extends Controller
 {
@@ -25,6 +27,10 @@ class PostController extends Controller
     public function index()
     {
         //
+        $posts=Post::withCount(['images'])->orderBy('id','desc')->paginate(5);
+
+        return view('posts.index',['posts'=>$posts]);
+
     }
 
     /**
@@ -50,6 +56,8 @@ class PostController extends Controller
         // name of image using slug
         $title=trim($request->title);
         $slug=Str::of($request->title)->slug('-');
+
+
 
 
             // to ensure saving data in 2 tables
@@ -123,7 +131,38 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+
+        $post=Post::find($request->postId);
+        if ($post)
+        {
+            $old_slug=Str::of($post->title)->slug('-');
+            $old_path=public_path().'/assets/post_images/'.$old_slug;
+
+            $new_slug=Str::of($request->title_edit)->slug('-');
+            $new_path=public_path().'/assets/post_images/'.$new_slug;
+
+            $title=trim($request->title_edit);
+
+            if ($request->has('images_for_edit')) {
+                $this->update_with_images($request, $post, $old_path, $title);
+                $total_images = count($request->file('images_for_edit'));
+
+            } else {
+                $this->update_withOut_images($request, $post, $old_path, $title);
+            }
+
+            return response()->json(
+                [
+                'status'=>200,
+                'message'=>"Your post has updated successfully with ".$total_images.' image'
+            ]
+            );
+        }
+
+
+
+
+
     }
 
     /**
