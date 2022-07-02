@@ -72,21 +72,21 @@ class UpdatePostRequest extends FormRequest
     public function messages()
     {
         return [
-            'title.required'=>"أدخل عنوان المقال ",
-            'title.min'=>"عنوان المقال قصير جدا ",
-            'title.max'=>"عنوان المقال طويل جدا",
-            'title.string'=>"عنوان المقال  غير مناسب",
-            'title.unique'=>" هذا العنوان مكرر    ",
+            'title_edit.required'=>"أدخل عنوان المقال ",
+            'title_edit.min'=>"عنوان المقال قصير جدا ",
+            'title_edit.max'=>"عنوان المقال طويل جدا",
+            'title_edit.string'=>"عنوان المقال  غير مناسب",
+            'title_edit.unique'=>" هذا العنوان مكرر    ",
 
 
-            'content.required'=>"يجب ادخال محتوي",
-            'content.min'=>"المقال قصير جدا",
+            'content_edit.required'=>"يجب ادخال محتوي",
+            'content_edit.min'=>"المقال قصير جدا",
 
-            'images.required'=>"يجب اختبار صورة معبرة",
-            'images.max'=>"اختر صورة أقل حجما",
-            'images.*.image'=>'هذا النوع غير مقبول',
-            'images.*.dimensions'=>'هذا المقاس غير مناسب',
-            'images.*.mimes'=>'هذا الامتداد غير متاح'
+            'images_for_edit.required'=>"يجب اختبار صورة معبرة",
+            'images_for_edit.max'=>"اختر صورة أقل حجما",
+            'images_for_edit.*.image'=>'هذا النوع غير مقبول',
+            'images_for_edit.*.dimensions'=>'هذا المقاس غير مناسب',
+            'images_for_edit.*.mimes'=>'هذا الامتداد غير متاح'
 
         ];
     }

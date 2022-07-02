@@ -17,6 +17,8 @@
           </div>
        </div>
     </div>
- </div>
+    <div id="show_all_posts">
 
+    </div>
+ </div>
 

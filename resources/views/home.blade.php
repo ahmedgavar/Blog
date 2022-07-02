@@ -18,8 +18,11 @@
     @include('layouts.User.contact')
     @include('layouts.User.footer')
     @include('layouts.User.copyright')
-    @include('User.create')
 
+
+
+    @include('User.create')
+    @include('User.edit')
 
 
 

@@ -1,14 +1,14 @@
-<div id="show_all_posts">
 
-    @forelse ($posts as $post)
+
+@forelse ($posts as $post)
 
       <!-- recent section start -->
-      <div class="about_section layout_padding">
-        <div class="container">
+    <div class="about_section layout_padding">
+        <div class="container show_all_posts">
            <div class="row">
               <div class="col-lg-8 col-sm-12">
                 {{-- show images of posts --}}
-                @include('posts.show_posts_images')
+                    @include('posts.show_posts_images')
                 {{-- End show images of posts --}}
 
 
@@ -60,31 +60,23 @@
                             </li>
 
 
-
-                          <li><a href="#"><img src="images"></a></li>
-                          <li><a href="#"><img src="images/twitter-icon.png"></a></li>
-                          <li><a href="#"><img src="images/instagram-icon.png"></a></li>
+                            <li><a href="#"><img src="{{ asset('images/fb-icon.png') }}"></a></li>
+                            <li><a href="#"><img src="{{ asset('images/twitter-icon.png') }}"></a></li>
+                            <li><a href="#"><img src="{{ asset('images/instagram-icon.png') }}"></a></li>
                        </ul>
                     </div>
                     <div class="read_bt"><a href="#">Read More</a></div>
                  </div>
               </div>
-              <div class="col-lg-4 col-sm-12">
-                <div class="image_5"><img src="images/img-5.png"></div>
-                <h1 class="about_taital">About Us</h1>
-                <p class="about_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis</p>
-                <div class="read_bt_1"><a href="#">Read More</a></div>
-             </div>
+
 
            </div>
         </div>
+    </div>
+
         @empty
         no posts
 
         @endforelse
-</div>
 
 
-     <!-- recent section end -->
-
-@include('User.edit')

@@ -19,9 +19,9 @@ $('#createPostModal').on('show.bs.modal',function(event){
 // first task is about create post
 $('#post_form').on('submit', function (e) {
         e.preventDefault();
-        $('#title_error').innerHtml="";
-        $('#content_error').innerHtml="";
-        $('#images_error').innerHtml="";
+        $('#title_error').text('');
+        $('#content_error').text('');
+        $('#images_error').text('');
 
 
         $.ajaxSetup({
@@ -34,7 +34,6 @@ $('#post_form').on('submit', function (e) {
         var data = new FormData( $( '#post_form' )[ 0 ] );
 
 
-        console.log(data);
 
         $.ajax({
                 method: 'POST',
@@ -48,16 +47,15 @@ $('#post_form').on('submit', function (e) {
                 success: function (response)
                  {
 
-
                         // first step:reset all inputs
 
                         $('#title').val('');
                         $('#content').val('');
                         $('#images').val('');
                         // second step: reset all errors
-                        $('#title_error').innerHtml="";
-                        $('#content_error').innerHtml="";
-                        $('#images_error').innerHtml="";
+                        $('#title_error').text('');
+                        $('#content_error').text('');
+                        $('#images_error').text('');
 
 
                         // third step :close modal
@@ -67,14 +65,40 @@ $('#post_form').on('submit', function (e) {
                         $('.modal-backdrop').remove();
 
 
-
-
-
                         // fourth step: show success message for 5 seconds
                         $('#success_msg').show();
+
+                        $('#success_msg').text(response.message);
                         setTimeout(function(){
                             $('#success_msg').hide();// or fade, css display however you'd like.
                          }, 3000);
+                        //  fifth step :show all posts
+                        $.ajax({
+                            method: 'GET',
+                            url: 'http://localhost:8000/users/posts',
+                            dataType:'json',
+
+                            success: function (response)
+                             {
+                                const all_posts=response.responseText;
+
+                                console.log(response);
+                                $('.show_all_posts .container').html('');
+                                $('.show_all_posts .container').html(all_posts);
+
+
+
+                            }
+                            ,error: function(reject){
+                                console.log("reject",reject);
+                                const all_posts=reject.responseText;
+                                $('.show_all_posts .container').html('');
+
+                                $('.show_all_posts .container').html(all_posts);
+                            }
+
+                        });
+
 
 
 
@@ -125,30 +149,18 @@ $(function() {
     });
 });
 
-jQuery(document).ready(function()
-{
-    fetchData();
-    function fetchData()
-    {
-
-
-        $.ajax({
-            method: 'GET',
-            url: '/users/posts',
-            dataType:'json',
-            success: function (response)
-             {
-                console.log(response);
-               $('#show_all_posts').html(response);
 
 
 
-            }
-        });
 
-    }
 
-});
+
+
+
+
+
+
+
 
 
 

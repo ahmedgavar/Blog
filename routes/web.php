@@ -25,6 +25,7 @@ Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('ho
 
 
 Route::group(['prefix'=>'users','as'=>'users.','middleware'=>'auth'], function(){
+
     Route::resource('/posts',PostController::class);
 
 

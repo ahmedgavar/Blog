@@ -13,7 +13,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\File;
 use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
-
+use Illuminate\Contracts\Session\Session;
 
 class PostController extends Controller
 {
@@ -27,9 +27,11 @@ class PostController extends Controller
     public function index()
     {
         //
-        $posts=Post::withCount(['images'])->orderBy('id','desc')->paginate(5);
+        $posts=Post::with(['images','user'])->orderBy('id','desc')->paginate(5);
+
 
         return view('posts.index',['posts'=>$posts]);
+
 
     }
 
@@ -56,6 +58,7 @@ class PostController extends Controller
         // name of image using slug
         $title=trim($request->title);
         $slug=Str::of($request->title)->slug('-');
+        $total_images = count($request->file('images'));
 
 
 
@@ -78,25 +81,25 @@ class PostController extends Controller
             // 2 save  images of  post using trait
             $this->store_multi_image($request->images,'post_images',$slug,$post_store);
 
-            $total_images = count($request->file('images'));
 
-            return response()->json(
-                [
-                    'status'=>200,
-                    'message'=>"Your post has created successfully with ".$total_images.' image'
-                ]
-            );
+
 
 
         });
 
-           return response()->json(
-            [
-                'status'=>422,
-                    'message'=>"Your post cannot be saved "
 
+        $status=200;
+        $message="Your post has created successfully with ".$total_images.' image';
+
+
+        return response()->json(
+            [
+                'status'=>$status,
+                'message'=>$message
             ]
-            );
+        );
+
+
 
     }
 
@@ -109,7 +112,9 @@ class PostController extends Controller
     public function show($id)
     {
         //
+
     }
+
 
     /**
      * Show the form for editing the specified resource.
@@ -129,7 +134,7 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdatePostRequest $request, $id)
     {
 
         $post=Post::find($request->postId);
@@ -143,20 +148,33 @@ class PostController extends Controller
 
             $title=trim($request->title_edit);
 
-            if ($request->has('images_for_edit')) {
+            if ($request->has('images_for_edit'))
+            {
                 $this->update_with_images($request, $post, $old_path, $title);
                 $total_images = count($request->file('images_for_edit'));
+                $my_response= response()->json(
+                    [
+                    'status'=>200,
+                    'message'=>"Your post has updated successfully with ".$total_images.' image'
+                ]
+                );
 
-            } else {
-                $this->update_withOut_images($request, $post, $old_path, $title);
             }
 
-            return response()->json(
-                [
-                'status'=>200,
-                'message'=>"Your post has updated successfully with ".$total_images.' image'
-            ]
-            );
+            else
+
+            {
+                $this->update_withOut_images($request, $post, $old_path, $title);
+                $my_response= response()->json(
+                    [
+                    'status'=>200,
+                    'message'=>'Your post has updated successfully with out new image'
+                ]
+                );
+            }
+            return $my_response;
+
+
         }
 
 
