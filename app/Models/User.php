@@ -6,13 +6,15 @@ use App\Models\Post;
 use App\Models\Comment;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
+use Qirolab\Laravel\Reactions\Traits\Reacts;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Qirolab\Laravel\Reactions\Contracts\ReactsInterface;
 
-class User extends Authenticatable
+class User extends Authenticatable  implements ReactsInterface
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable , Reacts;
 
     /**
      * The attributes that are mass assignable.

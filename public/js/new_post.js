@@ -22,6 +22,7 @@ $('#post_form').on('submit', function (e) {
         $('#title_error').text('');
         $('#content_error').text('');
         $('#images_error').text('');
+        $("#images_all_error").text('');
 
 
         $.ajaxSetup({
@@ -105,10 +106,12 @@ $('#post_form').on('submit', function (e) {
                 }
                 , error: function (reject) {
 
-
+                    console.log(reject.responseJSON.errors);
                     $.each(reject.responseJSON.errors, function (key, val) {
                         $("#" + key + "_error").text(val);
                     });
+                    $("#images_all_error").text(reject.responseJSON.errors["images.0"]);
+
 
 
                 }

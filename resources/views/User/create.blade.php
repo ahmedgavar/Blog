@@ -74,6 +74,8 @@
 
 
                   </div>
+                  <p id="images_all_error" class="error text-danger"></p>
+
 
 
                   <div class="modal-footer">

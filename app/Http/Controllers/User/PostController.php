@@ -24,6 +24,15 @@ class PostController extends Controller
      */
 
      use BlogTrait;
+     public function toggle_react(Post $post,Request $request)
+     {
+
+        $post->toggleReaction($request->reaction);
+
+
+
+    }
+
     public function index()
     {
         //

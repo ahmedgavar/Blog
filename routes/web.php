@@ -20,6 +20,8 @@ use App\Http\Controllers\User\PostController;
 // });
 
 Auth::routes();
+Route::post('/posts/{post}/reaction',[PostController::class,'toggle_react'])->middleware('auth');
+
 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
