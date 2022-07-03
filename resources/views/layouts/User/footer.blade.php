@@ -2,14 +2,14 @@
       <!-- footer section start -->
       <div class="footer_section layout_padding">
         <div class="container">
-           <div class="footer_logo"><a href="index.html"><img src="images/footer-logo.png"></a></div>
+           <div class="footer_logo"><a href="#"><img src="images/footer-logo.png"></a></div>
            <div class="footer_menu">
               <ul>
-                 <li><a href="index.html">Home</a></li>
-                 <li><a href="about.html">About</a></li>
-                 <li><a href="blog.html">Blog</a></li>
-                 <li><a href="features.html">Features</a></li>
-                 <li><a href="contact.html">contact us</a></li>
+                 <li><a href="">Home</a></li>
+                 <li><a href="">About</a></li>
+                 <li><a href="">Blog</a></li>
+                 <li><a href="">Features</a></li>
+                 <li><a href="">contact us</a></li>
               </ul>
            </div>
            <div class="contact_menu">

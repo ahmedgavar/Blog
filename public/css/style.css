@@ -1076,3 +1076,7 @@ textarea#comment::placeholder {
     z-index: 10;
 }
 
+svg{
+
+    width: 50px;
+}

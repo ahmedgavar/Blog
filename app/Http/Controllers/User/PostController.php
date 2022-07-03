@@ -198,8 +198,29 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy( Post $post)
     {
-        //
+        // first delete folder of post
+        $slug=Str::of($post->title)->slug('-');
+
+        $public_path=public_path().'/assets/post_images/';
+        $folder_path=$public_path.$slug;
+
+        $this->removeFolder($folder_path);
+        // second delete post from database
+
+        $post->delete();
+            // third message to user
+
+        $my_response= response()->json(
+            [
+            'status'=>200,
+            'message'=>"Post deleted successfully"
+            ]
+            );
+            return $my_response;
+
+
+
     }
 }

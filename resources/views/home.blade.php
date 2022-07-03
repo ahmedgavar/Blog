@@ -21,8 +21,10 @@
 
 
 
-    @include('User.create')
-    @include('User.edit')
+    @include('posts.create')
+    @include('posts.edit')
+    @include('posts.delete')
+
 
 
 
@@ -37,5 +39,8 @@
 
 <script src="{{ asset('js/update_post.js') }}" defer>
 
+
+</script>
+<script src="{{ asset('js/delete_post.js') }}" defer>
 </script>
 @endsection

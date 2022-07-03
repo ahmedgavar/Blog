@@ -1,6 +1,8 @@
-
-
-
+<style>
+    img,svg{
+        width: 50px;
+    }
+</style>
 <!-- recent section start -->
 <div class="about_section layout_padding show_all_posts">
   <div class="container">
@@ -102,9 +104,13 @@
 
      </div>
   @empty
-  no posts
+  <h1>
+    No posts Yet
+
+  </h1>
   @endforelse
 
+  {{ $posts->render() }}
 </div>
 </div>
 
