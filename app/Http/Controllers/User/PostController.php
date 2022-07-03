@@ -61,7 +61,7 @@ class PostController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function store(StorePostRequest $request)
+    public function store(StorePostRequest $request,Post $post)
     {
 
         // name of image using slug

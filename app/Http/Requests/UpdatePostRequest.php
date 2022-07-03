@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 
@@ -30,12 +31,17 @@ class UpdatePostRequest extends FormRequest
 
             'title_edit'=>[
                     'required',
-                    'unique:posts,title',
+                    // 'unique:posts,title',
                     'string',
                     'min:15',
                     'max:25',
+            Rule::unique('posts','title')->ignore($this->post)
+
+
 
                 ],
+
+
 
 
 
@@ -76,7 +82,6 @@ class UpdatePostRequest extends FormRequest
             'title_edit.min'=>"عنوان المقال قصير جدا ",
             'title_edit.max'=>"عنوان المقال طويل جدا",
             'title_edit.string'=>"عنوان المقال  غير مناسب",
-            'title_edit.unique'=>" هذا العنوان مكرر    ",
 
 
             'content_edit.required'=>"يجب ادخال محتوي",

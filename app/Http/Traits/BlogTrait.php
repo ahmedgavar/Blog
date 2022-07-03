@@ -114,7 +114,9 @@ trait BlogTrait
     public function update_withOut_images($request,$model,$old_path ,$title)
     {
 
-        if (!$request->has('images_for_edit'))
+        $new_slug=Str::of($request->title_edit)->slug('-');
+
+        if (!$request->has('images_for_edit') &&$request->title_edit !=$model->title)
 
         {
             DB::transaction(function () use ($request, $model, $title, $old_path) {
@@ -131,6 +133,15 @@ trait BlogTrait
                 $new_path=public_path().'/assets/post_images/'.$new_slug;
                 $this->rename_folder($old_path, $new_path);
             });
+        }
+
+        else if (!$request->has('images_for_edit') &&$request->title_edit ==$model->title)
+        {
+            $model->update([
+                'content'=>$request->content_edit,
+
+                ]);
+
         }
         }
 
