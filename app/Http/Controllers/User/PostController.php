@@ -4,6 +4,7 @@ namespace App\Http\Controllers\User;
 
 use Carbon\Carbon;
 use App\Models\Post;
+use App\Models\User;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -14,6 +15,8 @@ use Illuminate\Support\Facades\File;
 use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
 use Illuminate\Contracts\Session\Session;
+use App\Notifications\NewPostNotification;
+use Illuminate\Support\Facades\Notification;
 
 class PostController extends Controller
 {
@@ -73,40 +76,39 @@ class PostController extends Controller
 
 
             // to ensure saving data in 2 tables
-        DB::transaction(function () use ($slug,$title, $request)
 
-        {
+        DB::transaction(function () use ($slug, $title, $request, $total_images) {
 
 
             // 1 save table of posts
             $post_data = Arr::except($request->all(), ['images','title']);
-            $post_store=Post::create
-            (
+            $post_store=Post::create(
                 // user id added in boot function in post model when creating
-                $post_data+['title'=>$title]
-
+            $post_data+['title'=>$title]
             );
 
             // 2 save  images of  post using trait
-            $this->store_multi_image($request->images,'post_images',$slug,$post_store);
+            $this->store_multi_image($request->images, 'post_images', $slug, $post_store);
 
 
+            // 3 send notification to Admin
+            $post=Post::latest()->first();
+            $admins=User::where('role', '1')->get();
 
-
+            Notification::send($admins, new NewPostNotification($post));
 
         });
 
 
         $status=200;
         $message="Your post has created successfully with ".$total_images.' image';
-
-
         return response()->json(
             [
                 'status'=>$status,
                 'message'=>$message
             ]
         );
+
 
 
 

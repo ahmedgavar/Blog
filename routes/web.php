@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\User\PostController;
@@ -32,3 +33,13 @@ Route::group(['prefix'=>'users','as'=>'users.','middleware'=>'auth'], function()
 
 
     });
+
+Route::get('/admin', [AdminController::class, 'index'])->name('admins.index')->middleware('notification.read');
+
+
+// Route::group(['prefix'=>'admins','as'=>'admins.','middleware'=>'auth'], function(){
+
+//     Route::resource('/posts',PostController::class);
+
+
+//     });
