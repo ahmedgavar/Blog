@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\User;
+use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Notifications\NewPostNotification;
@@ -23,18 +24,26 @@ use App\Http\Controllers\User\PostController;
 // });
 
 // Auth::routes();
-Route::post('/posts/{post}/reaction',[PostController::class,'toggle_react'])->middleware('auth');
+Route::post('/posts/{post}/reaction', [PostController::class, 'toggle_react'])->middleware('auth');
 
 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 
-Route::group(['prefix'=>'users','as'=>'users.','middleware'=>'auth'], function(){
+Route::group(['prefix' => 'users', 'as' => 'users.', 'middleware' => 'auth'], function () {
 
-    Route::resource('/posts',PostController::class);
+    Route::resource('/posts', PostController::class);
+});
 
-
-    });
 
 // Route::get('fff',[PostController::class,'pppp']);
 
+Route::get('/admin', [AdminController::class, 'index'])->name('admins.index')->middleware('notification.read');
+
+
+// Route::group(['prefix'=>'admins','as'=>'admins.','middleware'=>'auth'], function(){
+
+//     Route::resource('/posts',PostController::class);
+
+
+//     });

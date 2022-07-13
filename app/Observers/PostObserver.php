@@ -35,6 +35,7 @@ class PostObserver
         $this->send_notification_to_admin($admins, new NewPostNotification($post));
     }
 
+
     /**
      * Handle the Post "updated" event.
      *

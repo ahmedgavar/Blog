@@ -22,8 +22,7 @@ class NewPostNotification extends Notification
     public function __construct(Post $post)
     {
         //
-        $this->post=$post;
-
+        $this->post = $post;
     }
 
     /**
@@ -39,18 +38,17 @@ class NewPostNotification extends Notification
 
     public function toDatabase($notifiable)
     {
-        $body=sprintf(
-            '%s added new post about %s'
-            ,
+        $body = sprintf(
+            '%s added new post about %s',
             $this->post->user->name,
             $this->post->title
 
         );
         return [
-            'title'=>'New Post Added',
-            'body'=>$body,
-            'icon'=>"fas fa-bell",
-            'url'=>route('users.posts.show',$this->post->id)
+            'title' => 'New Post Added',
+            'body' => $body,
+            'icon' => "fas fa-bell",
+            'url' => route('users.posts.show', $this->post->id)
 
         ];
     }
@@ -63,9 +61,9 @@ class NewPostNotification extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
+            ->line('The introduction to the notification.')
+            ->action('Notification Action', url('/'))
+            ->line('Thank you for using our application!');
     }
 
     /**
