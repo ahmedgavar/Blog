@@ -10,7 +10,7 @@
 
 
     @include('layouts.User.some_divs')
-
+    < x-notification-message />
 
     @include('layouts.User.show_posts')
 

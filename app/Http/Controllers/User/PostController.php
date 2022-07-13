@@ -13,7 +13,11 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\File;
 use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
+use App\Models\User;
+use App\Notifications\NewPostNotification;
 use Illuminate\Contracts\Session\Session;
+use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
 {
@@ -23,25 +27,20 @@ class PostController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-     use BlogTrait;
-     public function toggle_react(Post $post,Request $request)
-     {
+    use BlogTrait;
+    public function toggle_react(Post $post, Request $request)
+    {
 
         $post->toggleReaction($request->reaction);
-
-
-
     }
 
     public function index()
     {
         //
-        $posts=Post::with(['images','user'])->orderBy('id','desc')->paginate(5);
+        $posts = Post::with(['images', 'user'])->orderBy('id', 'desc')->paginate(5);
 
 
-        return view('posts.index',['posts'=>$posts]);
-
-
+        return view('posts.index', ['posts' => $posts]);
     }
 
     /**
@@ -61,56 +60,33 @@ class PostController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function store(StorePostRequest $request,Post $post)
+    public function store(StorePostRequest $request, Post $post)
     {
-
-        // name of image using slug
-        $title=trim($request->title);
-        $slug=Str::of($request->title)->slug('-');
         $total_images = count($request->file('images'));
 
+        $post_store = Post::create(
+            ['content' => $request->content]
+        );
+
+        $newImages = $request->file('images');
+
+        foreach ($newImages as $img) {
+            $post_store->storeImage($img);
+        }
 
 
-
-            // to ensure saving data in 2 tables
-        DB::transaction(function () use ($slug,$title, $request)
-
-        {
-
-
-            // 1 save table of posts
-            $post_data = Arr::except($request->all(), ['images','title']);
-            $post_store=Post::create
-            (
-                // user id added in boot function in post model when creating
-                $post_data+['title'=>$title]
-
-            );
-
-            // 2 save  images of  post using trait
-            $this->store_multi_image($request->images,'post_images',$slug,$post_store);
-
-
-
-
-
-        });
-
-
-        $status=200;
-        $message="Your post has created successfully with ".$total_images.' image';
-
+        $status = 200;
+        $message = "Your post has created successfully with " . $total_images . ' image';
 
         return response()->json(
             [
-                'status'=>$status,
-                'message'=>$message
+                'status' => $status,
+                'message' => $message
             ]
         );
-
-
-
     }
+
+
 
     /**
      * Display the specified resource.
@@ -146,50 +122,37 @@ class PostController extends Controller
     public function update(UpdatePostRequest $request, $id)
     {
 
-        $post=Post::find($request->postId);
-        if ($post)
-        {
-            $old_slug=Str::of($post->title)->slug('-');
-            $old_path=public_path().'/assets/post_images/'.$old_slug;
+        $post = Post::find($request->postId);
+        if ($post) {
+            $old_slug = Str::of($post->title)->slug('-');
+            $old_path = public_path() . '/assets/post_images/' . $old_slug;
 
-            $new_slug=Str::of($request->title_edit)->slug('-');
-            $new_path=public_path().'/assets/post_images/'.$new_slug;
 
-            $title=trim($request->title_edit);
+            $new_slug = Str::of($request->title_edit)->slug('-');
+            $new_path = public_path() . '/assets/post_images/' . $new_slug;
 
-            if ($request->has('images_for_edit'))
-            {
+            $title = trim($request->title_edit);
+
+            if ($request->has('images_for_edit')) {
                 $this->update_with_images($request, $post, $old_path, $title);
                 $total_images = count($request->file('images_for_edit'));
-                $my_response= response()->json(
+                $my_response = response()->json(
                     [
-                    'status'=>200,
-                    'message'=>"Your post has updated successfully with ".$total_images.' image'
-                ]
+                        'status' => 200,
+                        'message' => "Your post has updated successfully with " . $total_images . ' image'
+                    ]
                 );
-
-            }
-
-            else
-
-            {
+            } else {
                 $this->update_withOut_images($request, $post, $old_path, $title);
-                $my_response= response()->json(
+                $my_response = response()->json(
                     [
-                    'status'=>200,
-                    'message'=>'Your post has updated successfully with out new image'
-                ]
+                        'status' => 200,
+                        'message' => 'Your post has updated successfully with out new image'
+                    ]
                 );
             }
             return $my_response;
-
-
         }
-
-
-
-
-
     }
 
     /**
@@ -198,29 +161,26 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy( Post $post)
+    public function destroy(Post $post)
     {
         // first delete folder of post
-        $slug=Str::of($post->title)->slug('-');
+        $slug = Str::of($post->title)->slug('-');
 
-        $public_path=public_path().'/assets/post_images/';
-        $folder_path=$public_path.$slug;
+        $public_path = public_path() . '/assets/post_images/';
+        $folder_path = $public_path . $slug;
 
         $this->removeFolder($folder_path);
         // second delete post from database
 
         $post->delete();
-            // third message to user
+        // third message to user
 
-        $my_response= response()->json(
+        $my_response = response()->json(
             [
-            'status'=>200,
-            'message'=>"Post deleted successfully"
+                'status' => 200,
+                'message' => "Post deleted successfully"
             ]
-            );
-            return $my_response;
-
-
-
+        );
+        return $my_response;
     }
 }

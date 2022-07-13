@@ -65,6 +65,24 @@
                             <li><a href="#"><img src="{{ asset('images/instagram-icon.png') }}"></a></li>
                        </ul>
                     </div>
+                    <div>
+                        <span style="left: 50px">
+                            <like-component
+                            @auth
+
+                            :reactable_type=`posts/{{$post->id}}`
+                            :summary='@json($post->reactionSummary())'
+                            :reacted='@json($post->reacted())'
+
+                       @endauth
+
+                       >
+
+                       </like-component>
+
+                        </span>
+
+                      </div>
                     <div class="read_bt"><a href="#">Read More</a></div>
                  </div>
               </div>

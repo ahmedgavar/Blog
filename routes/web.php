@@ -1,7 +1,10 @@
 <?php
 
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Notifications\NewPostNotification;
+use Illuminate\Support\Facades\Notification;
 use App\Http\Controllers\User\PostController;
 
 /*
@@ -19,7 +22,7 @@ use App\Http\Controllers\User\PostController;
 //     return view('welcome');
 // });
 
-Auth::routes();
+// Auth::routes();
 Route::post('/posts/{post}/reaction',[PostController::class,'toggle_react'])->middleware('auth');
 
 
@@ -32,3 +35,6 @@ Route::group(['prefix'=>'users','as'=>'users.','middleware'=>'auth'], function()
 
 
     });
+
+// Route::get('fff',[PostController::class,'pppp']);
+
