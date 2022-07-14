@@ -4,7 +4,6 @@ namespace App\Http\Controllers\User;
 
 use Carbon\Carbon;
 use App\Models\Post;
-use App\Models\User;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -17,13 +16,7 @@ use App\Http\Requests\UpdatePostRequest;
 use App\Models\User;
 use App\Notifications\NewPostNotification;
 use Illuminate\Contracts\Session\Session;
-<<<<<<< HEAD
 use Illuminate\Support\Facades\Notification;
-use Illuminate\Support\Facades\Storage;
-=======
-use App\Notifications\NewPostNotification;
-use Illuminate\Support\Facades\Notification;
->>>>>>> 8e4f8a9e19629e62c913fe1c88bcb022583ba689
 
 class PostController extends Controller
 {
@@ -81,53 +74,15 @@ class PostController extends Controller
         }
 
 
-<<<<<<< HEAD
         $status = 200;
         $message = "Your post has created successfully with " . $total_images . ' image';
 
-=======
-
-            // to ensure saving data in 2 tables
-
-        DB::transaction(function () use ($slug, $title, $request, $total_images) {
-
-
-            // 1 save table of posts
-            $post_data = Arr::except($request->all(), ['images','title']);
-            $post_store=Post::create(
-                // user id added in boot function in post model when creating
-            $post_data+['title'=>$title]
-            );
-
-            // 2 save  images of  post using trait
-            $this->store_multi_image($request->images, 'post_images', $slug, $post_store);
-
-
-            // 3 send notification to Admin
-            $post=Post::latest()->first();
-            $admins=User::where('role', '1')->get();
-
-            Notification::send($admins, new NewPostNotification($post));
-
-        });
-
-
-        $status=200;
-        $message="Your post has created successfully with ".$total_images.' image';
->>>>>>> 8e4f8a9e19629e62c913fe1c88bcb022583ba689
         return response()->json(
             [
                 'status' => $status,
                 'message' => $message
             ]
         );
-<<<<<<< HEAD
-=======
-
-
-
-
->>>>>>> 8e4f8a9e19629e62c913fe1c88bcb022583ba689
     }
 
 
@@ -166,37 +121,33 @@ class PostController extends Controller
     public function update(UpdatePostRequest $request, $id)
     {
 
-        $post = Post::find($request->postId);
-        if ($post) {
-            $old_slug = Str::of($post->title)->slug('-');
-            $old_path = public_path() . '/assets/post_images/' . $old_slug;
+        $post = Post::find(request('postId'));
 
 
-            $new_slug = Str::of($request->title_edit)->slug('-');
-            $new_path = public_path() . '/assets/post_images/' . $new_slug;
-
-            $title = trim($request->title_edit);
-
-            if ($request->has('images_for_edit')) {
-                $this->update_with_images($request, $post, $old_path, $title);
-                $total_images = count($request->file('images_for_edit'));
-                $my_response = response()->json(
-                    [
-                        'status' => 200,
-                        'message' => "Your post has updated successfully with " . $total_images . ' image'
-                    ]
-                );
-            } else {
-                $this->update_withOut_images($request, $post, $old_path, $title);
-                $my_response = response()->json(
-                    [
-                        'status' => 200,
-                        'message' => 'Your post has updated successfully with out new image'
-                    ]
-                );
+        if ($request->hasFile('images_for_edit')) {
+            // delete images from db
+            $post->deleteImage();
+            // delete from folder
+            foreach ($post->images as $old_image) {
+                $post->deleteImageFromFolder($old_image->name);
             }
-            return $my_response;
+            // save new images
+
+            $newImages = $request->file('images_for_edit');
+
+            foreach ($newImages as $img) {
+                $post->storeImage($img);
+            }
         }
+
+
+
+        return response()->json(
+            [
+                'status' => 200,
+                'message' => 'Your post has updated successfully with out new image'
+            ]
+        );
     }
 
     /**

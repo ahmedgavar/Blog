@@ -42,6 +42,16 @@ class PostObserver
      * @param  \App\Models\Post  $post
      * @return void
      */
+    public function updating(Post $post)
+    {
+        //
+        $title = Str::squish(request('title_edit'));
+        $post->title = $title;
+        $slug = Str::slug($title);
+        $post->slug = $slug;
+        $post->content = request('content_edit');
+    }
+
     public function updated(Post $post)
     {
         //
@@ -53,6 +63,7 @@ class PostObserver
      * @param  \App\Models\Post  $post
      * @return void
      */
+
     public function deleted(Post $post)
     {
         //

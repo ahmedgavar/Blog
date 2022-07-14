@@ -3,6 +3,8 @@
 namespace App\Http\Traits;
 
 use App\Models\Image;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 
 
 trait PhotoTrait
@@ -28,7 +30,6 @@ trait PhotoTrait
     public function updateImage($image)
     {
         if ($this->images) {
-
             $this->images->delete();
         }
         $this->storeImage($image);
@@ -37,7 +38,18 @@ trait PhotoTrait
     public function deleteImage()
     {
         if ($this->images) {
-            $this->images->delete();
+            $this->images()->delete();
+        }
+    }
+    public function deleteImageFromFolder($old_image)
+    {
+        $path = public_path('storage/assets/posts/' . $old_image);
+
+
+        if (file_exists($path)) {
+            unlink($path);
+        } else {
+            dd('File does not exists.' . $path);
         }
     }
 }

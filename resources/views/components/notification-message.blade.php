@@ -1,15 +1,19 @@
 <div>
     <ul>
-        @foreach ($notifications as $notification )
-        <li>
+        @isset($notifications)
 
-            <strong> {{ $notification->data['title'] }}</strong>
-            <p> {{ $notification->data['body'] }}</p>
-            <a href="{{ $notification->data['url'] }}"></a>
+            @foreach ($notifications as $notification )
+            <li>
 
-        </li>
+                <strong> {{ $notification->data['title'] }}</strong>
+                <p> {{ $notification->data['body'] }}</p>
+                <a href="{{ $notification->data['url'] }}"></a>
 
-        @endforeach
+            </li>
+
+            @endforeach
+         @endisset
+
 
     </ul>
 

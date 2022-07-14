@@ -19,8 +19,10 @@ class NotificationMessage extends Component
     public function __construct()
     {
         //
-        $admin=Auth::user();
-        $this->notifications=$admin->notifications;
+        $admin = Auth::user();
+        if ($admin) {
+            $this->notifications = $admin->notifications;
+        }
     }
 
     /**
