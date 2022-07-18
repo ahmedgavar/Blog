@@ -5591,11 +5591,15 @@ var app = new Vue({
 }); // echo code for broadcasting
 
 window.Echo["private"]("App.Models.User.".concat(user_broadcast_id)).notification(function (data) {
-  alert(data.body); // show new notification without refresh
-
-  $('#notification_list').prepend(" <tr>\n    <td>\n\n            <strong>\n                <i class=\"fa fa-star\" aria-hidden=\"true\"></i>\n            </strong>\n        </td>\n    <td><i class=\"".concat(data.icon, "\"></i></td>\n    <td>").concat(data.title, "</td>\n\n    <td>").concat(data.body, "</td>\n    {{-- <td><i class=\"fa fa-paperclip\"></i></td> --}}\n    <td> ").concat(data.current_time, "</td>\n    <td> <a href=\"").concat(data.url, "? notify_id=").concat(data.id, "\"><i class=\"fa fa-paperclip\"></i></a></td>\n\n  </tr>")); // second increase the counter of alerts
+  // show new notification without refresh
+  $('#notification_list').prepend(" <tr>\n    <td>\n\n            <strong>\n                <i class=\"fa fa-star\" aria-hidden=\"true\"></i>\n            </strong>\n    </td>\n    <td><i class=\"".concat(data.icon, "\"></i></td>\n    <td>").concat(data.title, "</td>\n    <td>").concat(data.body, "</td>\n    <td>").concat(data.current_time, "</td>\n    <td> <a href=\"").concat(data.url, "? notify_id=").concat(data.id, "\"><i class=\"fa fa-paperclip\"></i></a></td>\n\n  </tr>")); // second increase the counter of alerts
 
   var count = Number($('#new_notification').text());
+
+  if (count > 99) {
+    count = '99+';
+  }
+
   count++;
   $('#new_notification').text(count);
 });

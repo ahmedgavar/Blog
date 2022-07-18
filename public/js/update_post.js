@@ -86,7 +86,7 @@ $(function() {
                 success: function (response)
                  {
 
-
+                $('#update_post_btn').text('saving');
                         // first step:reset all inputs
 
                         $('#title_edit').val('');

@@ -39,7 +39,6 @@ const app = new Vue({
 
 window.Echo.private(`App.Models.User.${user_broadcast_id}`)
 .notification((data)=>{
-    alert(data.body);
 
     // show new notification without refresh
     $('#notification_list').prepend(` <tr>
@@ -48,19 +47,21 @@ window.Echo.private(`App.Models.User.${user_broadcast_id}`)
             <strong>
                 <i class="fa fa-star" aria-hidden="true"></i>
             </strong>
-        </td>
+    </td>
     <td><i class="${data.icon}"></i></td>
     <td>${data.title}</td>
-
     <td>${data.body}</td>
-    {{-- <td><i class="fa fa-paperclip"></i></td> --}}
-    <td> ${data.current_time}</td>
+    <td>${data.current_time}</td>
     <td> <a href="${data.url}? notify_id=${data.id}"><i class="fa fa-paperclip"></i></a></td>
 
   </tr>`)
 
 // second increase the counter of alerts
 let count=Number($('#new_notification').text());
+if(count>99)
+{
+    count='99+'
+}
 count++;
 $('#new_notification').text(count);
 

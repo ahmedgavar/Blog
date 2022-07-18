@@ -56,16 +56,20 @@
 
              <div class="col-md-10 uu">
                <table class="table table-stripped notification_table">
-                 <tbody id="notification_list">
+                <thead>
                     <tr>
                         <td><input type="checkbox"/></td>
                         <td><i class="fa fa-star"></i></td>
                         <td><b>title</b></td>
                         <td><b>latest notifications</b></td>
                         <td> Date</td>
-                        <td></td>
+                        <td> mark as read</td>
 
-                      </tr>
+
+                    </tr>
+                </thead>
+                 <tbody id="notification_list">
+
                     @foreach ($notifications  as $notification )
 
                     <tr>
@@ -81,7 +85,6 @@
                         <td>{{ $notification->data['title'] }}</td>
 
                         <td>{{ $notification->data['body'] }}</td>
-                        {{-- <td><i class="fa fa-paperclip"></i></td> --}}
                         <td> {{ $notification->data['current_time']}}</td>
                         <td> <a href="{{$notification->data['url'] }}? notify_id={{ $notification->id }}"><i class="fa fa-paperclip"></i></a></td>
 

@@ -62,22 +62,20 @@ class PostUpdated extends Notification
 
     public function toBroadcast($notifiable)
     {
-        $date = $this->post->created_at; // now date is a carbon instance
-
+        $current_time = Carbon::now()->toDateTimeString();
 
         $body = sprintf(
-            '%s added new post about %s',
-            $this->post->user->name,
-            $this->post->title
+            '%s updated the post ',
+            auth()->user()->name,
+
 
         );
         return new BroadcastMessage([
-            'title' => 'New Post Added',
+            'title' => ' Post was updated ',
             'body' => $body,
+            'current_time' => $current_time,
             'icon' => "fas fa-bell",
-            'url' => route('users.posts.show', $this->post->id),
-            'current_time' => $date,
-
+            'url' => route('users.posts.show', $this->post->id)
         ]);
     }
     /**

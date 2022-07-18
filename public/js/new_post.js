@@ -47,33 +47,34 @@ $('#post_form').on('submit', function (e) {
                 cache: false,
                 success: function (response)
                  {
-
-                        // first step:reset all inputs
+                        // first step button text
+                        $('#save_post').text('saving');
+                        // second step:reset all inputs
 
                         $('#title').val('');
                         $('#content').val('');
                         $('#images').val('');
-                        // second step: reset all errors
+                        // third step: reset all errors
                         $('#title_error').text('');
                         $('#content_error').text('');
                         $('#images_error').text('');
 
 
-                        // third step :close modal
+                        // fourth step :close modal
                         $('#createPostModal').modal('hide');
 
                         $('body').removeClass('modal-open');
                         $('.modal-backdrop').remove();
 
 
-                        // fourth step: show success message for 5 seconds
+                        // fifth step: show success message for 5 seconds
                         $('#success_msg').show();
 
                         $('#success_msg').text(response.message);
                         setTimeout(function(){
                             $('#success_msg').hide();// or fade, css display however you'd like.
                          }, 3000);
-                        //  fifth step :show all posts
+                        //  sixth step :show all posts
                         $.ajax({
                             method: 'GET',
                             url: 'http://localhost:8000/users/posts',
