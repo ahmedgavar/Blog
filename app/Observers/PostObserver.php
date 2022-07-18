@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Support\Str;
 use App\Notifications\NewPostNotification;
 use App\Http\Traits\BlogTrait;
+use App\Notifications\PostUpdated;
 
 class PostObserver
 {
@@ -45,16 +46,16 @@ class PostObserver
     public function updating(Post $post)
     {
         //
-        $title = Str::squish(request('title_edit'));
-        $post->title = $title;
-        $slug = Str::slug($title);
-        $post->slug = $slug;
-        $post->content = request('content_edit');
+
     }
 
     public function updated(Post $post)
     {
         //
+
+        $admins = User::where('role', '1')->get();
+        $post = Post::latest()->first();
+        $this->send_notification_to_admin($admins, new PostUpdated($post));
     }
 
     /**
@@ -64,9 +65,10 @@ class PostObserver
      * @return void
      */
 
-    public function deleted(Post $post)
+    public function deleting(Post $post)
     {
         //
+        $post->images()->delete();
     }
 
     /**

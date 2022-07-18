@@ -122,21 +122,24 @@ class PostController extends Controller
     {
 
         $post = Post::find(request('postId'));
+        $title = Str::squish(request('title_edit'));
+        $slug = Str::slug($title);
+        $content = request('content_edit');
+
 
 
         if ($request->hasFile('images_for_edit')) {
-            // delete images from db
-            $post->deleteImage();
+            // update post table
+            $post->update([
+                'title' => $title, 'slug' => $slug, 'content' => $content
+            ]);
+
+            $newImages = $request->file('images_for_edit');
+            // update images
+            $post->updateImages($newImages);
             // delete from folder
             foreach ($post->images as $old_image) {
                 $post->deleteImageFromFolder($old_image->name);
-            }
-            // save new images
-
-            $newImages = $request->file('images_for_edit');
-
-            foreach ($newImages as $img) {
-                $post->storeImage($img);
             }
         }
 
@@ -158,17 +161,9 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        // first delete folder of post
-        $slug = Str::of($post->title)->slug('-');
 
-        $public_path = public_path() . '/assets/post_images/';
-        $folder_path = $public_path . $slug;
-
-        $this->removeFolder($folder_path);
-        // second delete post from database
 
         $post->delete();
-        // third message to user
 
         $my_response = response()->json(
             [

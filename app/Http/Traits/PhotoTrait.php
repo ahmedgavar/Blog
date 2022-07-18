@@ -27,15 +27,16 @@ trait PhotoTrait
     }
 
     // update images in database
-    public function updateImage($image)
+    public function updateImages($new_images)
     {
-        if ($this->images) {
-            $this->images->delete();
+        $this->deleteImages();
+        foreach ($new_images as $image) {
+            # code...
+            $this->storeImage($image);
         }
-        $this->storeImage($image);
     }
     // one image
-    public function deleteImage()
+    public function deleteImages()
     {
         if ($this->images) {
             $this->images()->delete();

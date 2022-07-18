@@ -6,22 +6,21 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\Component;
 
-class NotificationMessage extends Component
+class NotificationList extends Component
 {
+    public $notifications, $new_notification;
     /**
      * Create a new component instance.
      *
      * @return void
      */
-
-    public $notifications;
-
-    public function __construct()
+    public function __construct($count = 5)
     {
         //
-        $admin = Auth::user();
-        if ($admin) {
-            $this->notifications = $admin->notifications;
+        $all_users = User::all();
+        foreach ($all_users as $user) {
+            $this->notifications = $user->notifications()->take($count)->get();
+            $this->new_notification = $user->unreadNotifications()->count();
         }
     }
 
@@ -32,6 +31,6 @@ class NotificationMessage extends Component
      */
     public function render()
     {
-        return view('components.notification-message');
+        return view('components.notification-list');
     }
 }

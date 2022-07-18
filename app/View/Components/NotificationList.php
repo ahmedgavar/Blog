@@ -8,25 +8,20 @@ use Illuminate\View\Component;
 
 class NotificationList extends Component
 {
-    public $notifications,$new_notification;
+    public $notifications, $new_notification;
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct($count=5)
+    public function __construct($count = 5)
     {
         //
-        $current_user=Auth::user();
-        if($current_user->role=='1')
-        {
-            $this->notifications=$current_user->notifications()->take($count)->get();
-            $this->new_notification=$current_user->unreadNotifications()->count();
+        $all_users = User::all();
+        foreach ($all_users as $user) {
+            $this->notifications = $user->notifications()->take($count)->get();
+            $this->new_notification = $user->unreadNotifications()->count();
         }
-
-
-
-
     }
 
     /**

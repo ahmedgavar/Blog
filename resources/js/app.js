@@ -6,6 +6,8 @@
 
 require('./bootstrap');
 
+
+
 window.Vue = require('vue').default;
 
 /**
@@ -22,7 +24,6 @@ window.Vue = require('vue').default;
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('like-component', require('./components/LikeComponent.vue').default);
 
-
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -31,4 +32,36 @@ Vue.component('like-component', require('./components/LikeComponent.vue').defaul
 
 const app = new Vue({
     el: '#app',
+});
+
+
+// echo code for broadcasting
+
+window.Echo.private(`App.Models.User.${user_broadcast_id}`)
+.notification((data)=>{
+    alert(data.body);
+
+    // show new notification without refresh
+    $('#notification_list').prepend(` <tr>
+    <td>
+
+            <strong>
+                <i class="fa fa-star" aria-hidden="true"></i>
+            </strong>
+        </td>
+    <td><i class="${data.icon}"></i></td>
+    <td>${data.title}</td>
+
+    <td>${data.body}</td>
+    {{-- <td><i class="fa fa-paperclip"></i></td> --}}
+    <td> ${data.current_time}</td>
+    <td> <a href="${data.url}? notify_id=${data.id}"><i class="fa fa-paperclip"></i></a></td>
+
+  </tr>`)
+
+// second increase the counter of alerts
+let count=Number($('#new_notification').text());
+count++;
+$('#new_notification').text(count);
+
 });

@@ -4,17 +4,17 @@ namespace App\Notifications;
 
 use Carbon\Carbon;
 use App\Models\Post;
-use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\BroadcastMessage;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class NewPostNotification extends Notification
+class PostUpdated extends Notification
 {
     use Queueable;
     protected $post;
+
 
     /**
      * Create a new notification instance.
@@ -38,40 +38,28 @@ class NewPostNotification extends Notification
         return ['database', 'broadcast'];
     }
 
+
+
     public function toDatabase($notifiable)
     {
-
-        $date = $this->post->created_at; // now date is a carbon instance
-
-
         $body = sprintf(
-            '%s added new post about %s',
-            $this->post->user->name,
-            $this->post->title
+            '%s updated the post ',
+            auth()->user()->name,
+
 
         );
+        $current_time = Carbon::now()->toDateTimeString();
+
         return [
-            'title' => 'New Post Added',
+            'title' => ' Post was updated ',
             'body' => $body,
+            'current_time' => $current_time,
             'icon' => "fas fa-bell",
-            'url' => route('users.posts.show', $this->post->id),
-            'current_time' => $date,
+            'url' => route('users.posts.show', $this->post->id)
 
         ];
     }
-    /**
-     * Get the mail representation of the notification.
-     *
-     * @param  mixed  $notifiable
-     * @return \Illuminate\Notifications\Messages\MailMessage
-     */
-    public function toMail($notifiable)
-    {
-        return (new MailMessage)
-            ->line('The introduction to the notification.')
-            ->action('Notification Action', url('/'))
-            ->line('Thank you for using our application!');
-    }
+
     public function toBroadcast($notifiable)
     {
         $date = $this->post->created_at; // now date is a carbon instance
@@ -91,6 +79,19 @@ class NewPostNotification extends Notification
             'current_time' => $date,
 
         ]);
+    }
+    /**
+     * Get the mail representation of the notification.
+     *
+     * @param  mixed  $notifiable
+     * @return \Illuminate\Notifications\Messages\MailMessage
+     */
+    public function toMail($notifiable)
+    {
+        return (new MailMessage)
+            ->line('The introduction to the notification.')
+            ->action('Notification Action', url('/'))
+            ->line('Thank you for using our application!');
     }
 
     /**

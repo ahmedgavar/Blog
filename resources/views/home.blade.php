@@ -33,14 +33,27 @@
 @section('scripts')
 
 
-<script src="{{ asset('js/new_post.js') }}" defer>
+<script
+    src="{{ asset('js/new_post.js') }}" defer>
 </script>
 
 
-<script src="{{ asset('js/update_post.js') }}" defer>
-
+<script
+     src="{{ asset('js/update_post.js') }}" defer>
 
 </script>
-<script src="{{ asset('js/delete_post.js') }}" defer>
+
+
+
+<script
+    src="{{ asset('js/delete_post.js') }}" defer>
 </script>
+
+
+
+{{-- for laravel echo --}}
+@auth
+
+@endauth
+
 @endsection

@@ -11,6 +11,7 @@
         "laravel/framework": "^9.11",
         "laravel/sanctum": "^2.14.1",
         "laravel/tinker": "^2.7",
+        "pusher/pusher-php-server": "^7.0",
         "qirolab/laravel-reactions": "^2.6"
     },
     "require-dev": {

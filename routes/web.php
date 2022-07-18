@@ -36,9 +36,9 @@ Route::group(['prefix' => 'users', 'as' => 'users.', 'middleware' => 'auth'], fu
 });
 
 
-// Route::get('fff',[PostController::class,'pppp']);
-
-Route::get('/admin', [AdminController::class, 'index'])->name('admins.index')->middleware('notification.read');
+Route::middleware(['is_admin'])->prefix('admins')->group(function () {
+    Route::get('/admin', [AdminController::class, 'index'])->name('admins.index')->middleware('notification.read');
+});
 
 
 // Route::group(['prefix'=>'admins','as'=>'admins.','middleware'=>'auth'], function(){
@@ -47,3 +47,7 @@ Route::get('/admin', [AdminController::class, 'index'])->name('admins.index')->m
 
 
 //     });
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

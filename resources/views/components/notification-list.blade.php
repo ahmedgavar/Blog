@@ -6,7 +6,7 @@
 {{-- show table and hide it --}}
 <button onclick="$('.notification_table').toggle();" style="float: right;margin-right: 100px;" class="show_notification">
         <i class="fas fa-bell fa-2xl"></i>
-        <span>{{ $new_notification }}</span>
+        <span id="new_notification">{{ $new_notification }}</span>
 </button>
 {{-- End show table and hide it --}}
 
@@ -30,7 +30,7 @@
 
               <!-- Main Menu -->
               <div class="side-menu-container">
-                  <ul class="nav navbar-nav">
+                  <ul  class="nav navbar-nav">
 
                       <li><a href="#"><i class="fa fa-dashboard"></i> Dashboard</a></li>
                       <li class="active"><a href="#"><i class="fa fa-puzzle-piece"></i> Components</a></li>
@@ -56,7 +56,7 @@
 
              <div class="col-md-10 uu">
                <table class="table table-stripped notification_table">
-                 <tbody>
+                 <tbody id="notification_list">
                     <tr>
                         <td><input type="checkbox"/></td>
                         <td><i class="fa fa-star"></i></td>
@@ -69,7 +69,6 @@
                     @foreach ($notifications  as $notification )
 
                     <tr>
-                        <td><input type="checkbox"/></td>
                         <td>
                             @if($notification->unread())
 
@@ -80,9 +79,10 @@
                             @endif
                         <td><i class="{{ $notification->data['icon'] }}"></i></td>
                         <td>{{ $notification->data['title'] }}</td>
+
                         <td>{{ $notification->data['body'] }}</td>
                         {{-- <td><i class="fa fa-paperclip"></i></td> --}}
-                        <td> {{ $notification->data['date']}}</td>
+                        <td> {{ $notification->data['current_time']}}</td>
                         <td> <a href="{{$notification->data['url'] }}? notify_id={{ $notification->id }}"><i class="fa fa-paperclip"></i></a></td>
 
                       </tr>
