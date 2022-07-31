@@ -6,13 +6,16 @@
     "license": "MIT",
     "require": {
         "php": "^8.0.2",
+        "alexusmai/laravel-file-manager": "^3.0",
         "guzzlehttp/guzzle": "^7.2",
+        "intervention/image": "^2.7",
         "laravel/fortify": "^1.13",
         "laravel/framework": "^9.11",
         "laravel/sanctum": "^2.14.1",
         "laravel/tinker": "^2.7",
         "pusher/pusher-php-server": "^7.0",
-        "qirolab/laravel-reactions": "^2.6"
+        "qirolab/laravel-reactions": "^2.6",
+        "tomfordrumm/jwt-auth": "dev-develop"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",

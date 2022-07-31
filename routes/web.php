@@ -1,12 +1,13 @@
 <?php
 
 use App\Models\User;
-use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AdminController;
 use App\Notifications\NewPostNotification;
 use Illuminate\Support\Facades\Notification;
 use App\Http\Controllers\User\PostController;
+use App\Http\Controllers\User\CommentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,6 +34,7 @@ Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('ho
 Route::group(['prefix' => 'users', 'as' => 'users.', 'middleware' => 'auth'], function () {
 
     Route::resource('/posts', PostController::class);
+    Route::resource('/comments', CommentController::class);
 });
 
 

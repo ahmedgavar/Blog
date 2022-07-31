@@ -24,8 +24,6 @@ class PostObserver
 
         $title = Str::squish(request('title'));
         $post->title = $title;
-        $slug = Str::slug($title);
-        $post->slug = $slug;
     }
     public function created(Post $post)
     {

@@ -82,4 +82,8 @@ class AdminController extends Controller
     {
         //
     }
+    public function login()
+    {
+        return view('layouts.reg-login_admin');
+    }
 }

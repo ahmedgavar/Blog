@@ -51,7 +51,7 @@ class LoginController extends Controller
             if (auth()->user()->role == "1") {
                 return redirect()->route('admins.index');
             } else {
-                return redirect()->route('home');
+                return redirect('/');
             }
         } else {
             return redirect()->route('login')

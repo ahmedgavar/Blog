@@ -50,8 +50,37 @@
 </script>
 
 
+<script
+    src="{{ asset('js/new_comment.js') }}" defer>
+</script>
 
-{{-- for laravel echo --}}
+
+
+{{-- for laravel tinymce --}}
+
+<script src="{{ asset('js/tinymce/tinymce.min.js') }}" referrerpolicy="origin"></script>
+<script>
+    tinymce.init({
+
+      selector: 'textarea#new_comment',
+
+    });
+  </script>
+
+{{-- end  laravel tinymce --}}
+{{-- toastr --}}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
+
+function updateSetting(_this) {
+
+    toastr.options = {
+          "closeButton": true,
+          "newestOnTop": true,
+          "positionClass": "toast-top-right"
+        };
+{{-- end toastr --}}
+
 @auth
 
 @endauth

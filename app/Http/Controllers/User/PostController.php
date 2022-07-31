@@ -4,6 +4,8 @@ namespace App\Http\Controllers\User;
 
 use Carbon\Carbon;
 use App\Models\Post;
+use App\Models\User;
+use App\Models\Comment;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -13,9 +15,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\File;
 use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
-use App\Models\User;
-use App\Notifications\NewPostNotification;
 use Illuminate\Contracts\Session\Session;
+use App\Notifications\NewPostNotification;
 use Illuminate\Support\Facades\Notification;
 
 class PostController extends Controller
@@ -37,9 +38,15 @@ class PostController extends Controller
     {
         //
         $posts = Post::with(['images', 'user'])->orderBy('id', 'desc')->paginate(5);
+        $comments_number = Comment::count();
+        $comments_count = 0;
+        if ($comments_number != 0) {
+            $comments_count =  Comment::orderBy('id', 'desc')->first()->id;
+        }
 
 
-        return view('posts.index', ['posts' => $posts]);
+
+        return view('posts.index', ['posts' => $posts, 'comments_count' => $comments_count]);
     }
 
     /**
@@ -93,7 +100,7 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($post)
     {
         //
 

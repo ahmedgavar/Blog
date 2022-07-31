@@ -16,9 +16,10 @@
 
 
            <p class="post_text">Post At : {{$post->created_at->diffForHumans()}}</p>
-           <h2 class="most_text">{{ $post->title }} </h2>
+           <h2 class="most_text" style="margin-bottom: 30px;">{{ $post->title }} </h2>
 
-            <div style="   word-wrap: break-word;  width: 70%; ">
+
+            <div style="   word-wrap: break-word; width: 70%; ">
 
                 {{ $post->content }}
 
@@ -36,11 +37,7 @@
                       </li>
 
 
-                      <li>
-                          <span id="show_comment_{{ $post->id }}" class="show_comments"
-                              style="cursor: pointer;">{{ $post->comments_count }}Comments
-                          </span>
-                      </li>
+                      
                       <li>
 
                           <button
@@ -102,7 +99,8 @@
         </div>
 
 
-     </div>
+@include('posts.show_comments')
+
   @empty
   <h1>
     No posts Yet
@@ -116,5 +114,4 @@
 
 
 
-<!-- recent section end -->
 

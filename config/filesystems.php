@@ -39,16 +39,14 @@ return [
         'public' => [
             'driver' => 'local',
             'root' => storage_path('app/public'),
-            'url' => env('APP_URL').'/storage',
+            'url' => env('APP_URL') . '/storage',
             'visibility' => 'public',
             'throw' => false,
         ],
-        'post_images' => [
+        'images' => [
             'driver' => 'local',
-            'root' => public_path('assets/post_images'),
-            'url' => env('APP_URL').'/public/assets/post_images',
-            'visibility' => 'public',
-            'throw' => false,
+            'root' => public_path('assets/images/comments_images'),
+            'url' => env('APP_URL') . '/assets/images/comments_images',
         ],
 
         's3' => [

@@ -10690,7 +10690,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.images {\n   display: flex;\n   flex-direction: row;\n   margin-right: 200px;\n}\n.images>button{\n    margin-left: 20px;\n    width: 50px;\n}\n.images>button>img{\n    width: 50px;\n}\n.like_btn{\n\n    /* margin-right: ; */\n    /* margin-top: 15px; */\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.images {\r\n   display: flex;\r\n   flex-direction: row;\r\n   margin-right: 200px;\n}\n.images>button{\r\n    margin-left: 20px;\r\n    width: 50px;\n}\n.images>button>img{\r\n    width: 50px;\n}\n.like_btn{\r\n\r\n    /* margin-right: ; */\r\n    /* margin-top: 15px; */\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -35243,14 +35243,14 @@ var render = function () {
                     attrs: { src: _vm.Image(_vm.auth_reaction) },
                   }),
                   _vm._v(
-                    "\n                        " +
+                    "\r\n                        " +
                       _vm._s(_vm.auth_reaction) +
-                      "\n\n                    "
+                      "\r\n\r\n                    "
                   ),
                 ])
               : _c("span", [
                   _vm._v(
-                    "\n                        like\n                    "
+                    "\r\n                        like\r\n                    "
                   ),
                 ]),
           ]
